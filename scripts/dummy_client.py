@@ -4,7 +4,7 @@ import sys
 import rospy
 import tf
 from geometry_msgs.msg import PoseStamped
-from object_detector_server.srv import GetObjPose, GetObjPoseResponse
+from object_detector_server.srv import GetObjPose
 import numpy as np
 from scipy.spatial.transform import Rotation as R
 from pathlib import Path
