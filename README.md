@@ -1,4 +1,4 @@
-# object_pose_estimator_server
-ROS (noetic) server for known object pose estimation
+# object_detector_server
+ROS (noetic) server for object detection.
 
 (based on __object_pose_estimation__ Python package)
