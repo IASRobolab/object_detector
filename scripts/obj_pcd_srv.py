@@ -40,7 +40,7 @@ convert_rgbFloat_to_tuple = lambda rgb_float: convert_rgbUint32_to_tuple(
 )
 
 # Convert the datatype of point cloud from Open3D to ROS PointCloud2 (XYZRGB only)
-def convertCloudFromOpen3dToRos(open3d_cloud, frame_id="camera"):
+def convert_cloud_from_o3d_to_ros(open3d_cloud, frame_id="camera"):
     # Set "header"
     header = Header()
     header.stamp = rospy.get_rostime()
@@ -66,7 +66,7 @@ def convertCloudFromOpen3dToRos(open3d_cloud, frame_id="camera"):
     # create ros_cloud
     return pc2.create_cloud(header, fields, cloud_data)
 
-def convertCloudFromRosToOpen3d(ros_cloud):
+def convert_cloud_from_ros_to_ord(ros_cloud):
     
     # Get cloud data from ros_cloud
     field_names=[field.name for field in ros_cloud.fields]
@@ -131,9 +131,9 @@ class ObjectPCDServer:
         obj_pcd, _= self.estimator.get_yolact_pcd(filt_type = self.filt_type, filt_params_dict = self.filt_params_dict, flg_volume_int = True)
         transl = obj_pcd.get_center()
         o3d.visualization.draw_geometries([obj_pcd])
-        ros_cloud = convertCloudFromOpen3dToRos(obj_pcd, frame_id=self.camera_frame_id)
+        ros_cloud = convert_cloud_from_o3d_to_ros(obj_pcd, frame_id=self.camera_frame_id)
 
-        conv_pcd = convertCloudFromRosToOpen3d(ros_cloud)
+        conv_pcd = convert_cloud_from_ros_to_ord(ros_cloud)
         o3d.visualization.draw_geometries([conv_pcd])
 
 
@@ -181,7 +181,7 @@ if __name__ == "__main__":
     yolact_weights = yolact_weights      # Path to Yolact weights
     voxel_size = 0.001                   # Voxel size for downsamping
     filt_type = 'STATISTICAL'
-    filt_params_dict = {'nb_neighbors': 50, 'std_ratio': 0.2}
+    filt_params_dict = {'nb_neighbors': 100, 'std_ratio': 0.2}
 
     get_pcd_srv = ObjectPCDServer(cameras_dict = cameras_dict,
                                   obj_label = obj_label,
