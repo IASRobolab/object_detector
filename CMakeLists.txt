@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   geometry_msgs
+  sensor_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -58,6 +59,7 @@ find_package(catkin REQUIRED COMPONENTS
 add_service_files(
   FILES
   GetObjPose.srv
+  GetObjPcd.srv
 )
 
 ## Generate actions in the 'action' folder
@@ -70,8 +72,9 @@ add_service_files(
 # Generate added messages and services with any dependencies listed here
 generate_messages(
   DEPENDENCIES
-  std_msgs  # Or other packages containing msgs
+  std_msgs 
   geometry_msgs
+  sensor_msgs
 )
 
 ###################################
@@ -86,7 +89,7 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES object_detector_server
- CATKIN_DEPENDS rospy message_runtime geometry_msgs std_msgs
+ CATKIN_DEPENDS rospy message_runtime std_msgs geometry_msgs sensor_msgs
 #  DEPENDS system_lib
 )
 
@@ -138,8 +141,10 @@ include_directories(
 # Mark executable scripts (Python etc.) for installation
 # in contrast to setup.py, you can choose the destination
 catkin_install_python(PROGRAMS
-  scripts/obj_pose_est_srv.py
-  scripts/dummy_client.py
+  scripts/obj_pose_srv.py
+  scripts/dummy_obj_pose_client.py
+  scripts/obj_pcd_srv.py
+  scripts/dummy_obj_pcd_client.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

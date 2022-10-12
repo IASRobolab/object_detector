@@ -103,5 +103,5 @@ if __name__ == "__main__":
                                        filt_params_dict = filt_params_dict)
 
     s = rospy.Service('obj_pose_estimator', GetObjPose, pose_est_srv.handle_pose_request)
-    print("Object Pose Estimator Service Ready")
+    rospy.loginfo("Get Object Pose Estimator Service Ready")
     rospy.spin()

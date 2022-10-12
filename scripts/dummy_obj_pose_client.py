@@ -15,8 +15,8 @@ if __name__ == "__main__":
     rospy.wait_for_service('obj_pose_estimator')
     try:
         get_obj_tf = rospy.ServiceProxy('obj_pose_estimator', GetObjPose)
-        tf_msg = get_obj_tf()
+        res = get_obj_tf()
         rospy.loginfo("Object Pose Received")
-        print(tf_msg)
+        print(res.tf_camera_object)
     except rospy.ServiceException as e:
         print("Service call failed: %s"%e)
