@@ -16,17 +16,24 @@ import open3d as o3d
 
 class PoseEstimatorServer:
     def __init__(self, cameras_dict, obj_label, obj_model_path, yolact_weights, voxel_size, filt_type, filt_params_dict,
-                 ext_cal_path, chess_size = (5, 4), chess_square_size = 40,
-                 calib_loops = 100, flg_cal_wait_key = False, flg_plot = False):
+                 ext_cal_path, chess_size = (5, 4), chess_square_size = 40, calib_loops = 400, flg_cal_wait_key = False, 
+                 frame_id = 'world'):
 
         self.estimator = PoseEstimator(cameras_dict = cameras_dict,
                                        obj_label = obj_label,
                                        obj_model_path = obj_model_path,
                                        yolact_weights = yolact_weights, 
                                        voxel_size = voxel_size,
-                                       ext_cal_path = ext_cal_path)
+                                       ext_cal_path = ext_cal_path,
+                                       chess_size = chess_size,
+                                       chess_square_size = chess_square_size,
+                                       calib_loops = calib_loops,
+                                       flg_cal_wait_key = flg_cal_wait_key)
         self.filt_type = filt_type
-        self.filt_params_dict = filt_params_dict                       
+        self.filt_params_dict = filt_params_dict                   
+
+        self.seq = 0
+        self.frame_id = frame_id
 
     def handle_pose_request(self, req):
         rospy.loginfo("Incoming request")
@@ -35,7 +42,13 @@ class PoseEstimatorServer:
         r = R.from_matrix(rot_mat)
         quat = r.as_quat()
         transl = T_icp[0:3,3]
+
         pose_msg = PoseStamped()
+
+        pose_msg.header.seq = self.seq
+        pose_msg.header.stamp = rospy.get_rostime()
+        pose_msg.header.frame_id = self.frame_id
+
         pose_msg.pose.position.x = transl[0]
         pose_msg.pose.position.y = transl[1]
         pose_msg.pose.position.z = transl[2]
@@ -44,6 +57,8 @@ class PoseEstimatorServer:
         pose_msg.pose.orientation.z = quat[2]
         pose_msg.pose.orientation.w = quat[3]
         rospy.loginfo("Object Pose Sent Correctly")
+
+        self.seq += 1
         return GetObjPoseResponse(pose_msg)
 
     
