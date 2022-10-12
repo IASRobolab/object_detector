@@ -5,7 +5,8 @@ import copy
 import rospy
 import rospkg
 import tf
-from geometry_msgs.msg import PoseStamped
+import tf2_ros
+from geometry_msgs.msg import TransformStamped
 from object_detector_server.srv import GetObjPose, GetObjPoseResponse
 import numpy as np
 from scipy.spatial.transform import Rotation as R
@@ -17,7 +18,7 @@ import open3d as o3d
 class PoseEstimatorServer:
     def __init__(self, cameras_dict, obj_label, obj_model_path, yolact_weights, voxel_size, filt_type, filt_params_dict,
                  ext_cal_path, chess_size = (5, 4), chess_square_size = 40, calib_loops = 400, flg_cal_wait_key = False, 
-                 frame_id = 'world'):
+                 object_frame_id = 'object', camera_frame_id = 'camera'):
 
         self.estimator = PoseEstimator(cameras_dict = cameras_dict,
                                        obj_label = obj_label,
@@ -33,7 +34,11 @@ class PoseEstimatorServer:
         self.filt_params_dict = filt_params_dict                   
 
         self.seq = 0
-        self.frame_id = frame_id
+        self.object_frame_id = object_frame_id
+        self.camera_frame_id = camera_frame_id
+
+        self.br = tf2_ros.TransformBroadcaster()
+
 
     def handle_pose_request(self, req):
         rospy.loginfo("Incoming request")
@@ -43,23 +48,25 @@ class PoseEstimatorServer:
         quat = r.as_quat()
         transl = T_icp[0:3,3]
 
-        pose_msg = PoseStamped()
+        t = TransformStamped()
+        t.header.stamp = rospy.get_rostime()
+        t.header.seq = self.seq
+        t.header.frame_id = self.camera_frame_id
+        t.child_frame_id = self.object_frame_id
+        t.transform.translation.x = transl[0]
+        t.transform.translation.y = transl[1]
+        t.transform.translation.z = transl[2]
+        t.transform.rotation.x = quat[0]
+        t.transform.rotation.y = quat[1]
+        t.transform.rotation.z = quat[2]
+        t.transform.rotation.w = quat[3]
+        self.br.sendTransform(t)
 
-        pose_msg.header.seq = self.seq
-        pose_msg.header.stamp = rospy.get_rostime()
-        pose_msg.header.frame_id = self.frame_id
-
-        pose_msg.pose.position.x = transl[0]
-        pose_msg.pose.position.y = transl[1]
-        pose_msg.pose.position.z = transl[2]
-        pose_msg.pose.orientation.x = quat[0]
-        pose_msg.pose.orientation.y = quat[1]
-        pose_msg.pose.orientation.z = quat[2]
-        pose_msg.pose.orientation.w = quat[3]
         rospy.loginfo("Object Pose Sent Correctly")
 
         self.seq += 1
-        return GetObjPoseResponse(pose_msg)
+
+        return GetObjPoseResponse(t)
 
     
 
