@@ -6,7 +6,7 @@ import tf
 from std_msgs.msg import Header
 from sensor_msgs.msg import PointCloud2, PointField
 import sensor_msgs.point_cloud2 as pc2
-from object_detector.srv import GetObjPcd
+from object_detector_srv.srv import GetObjPcd
 import numpy as np
 from scipy.spatial.transform import Rotation as R
 from pathlib import Path

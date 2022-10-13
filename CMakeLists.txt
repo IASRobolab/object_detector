@@ -8,11 +8,11 @@ project(object_detector)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  message_generation
+  #message_generation
   rospy
-  std_msgs
-  geometry_msgs
-  sensor_msgs
+  #std_msgs
+  #geometry_msgs
+  #sensor_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -55,12 +55,12 @@ find_package(catkin REQUIRED COMPONENTS
 #   Message2.msg
 # )
 
-# Generate services in the 'srv' folder
-add_service_files(
-  FILES
-  GetObjPose.srv
-  GetObjPcd.srv
-)
+## Generate services in the 'srv' folder
+# add_service_files(
+#   FILES
+#   GetObjPose.srv
+#   GetObjPcd.srv
+# )
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -69,13 +69,13 @@ add_service_files(
 #   Action2.action
 # )
 
-# Generate added messages and services with any dependencies listed here
-generate_messages(
-  DEPENDENCIES
-  std_msgs 
-  geometry_msgs
-  sensor_msgs
-)
+## Generate added messages and services with any dependencies listed here
+# generate_messages(
+#   DEPENDENCIES
+#   std_msgs 
+#   geometry_msgs
+#   sensor_msgs
+# )
 
 ###################################
 ## catkin specific configuration ##
@@ -89,7 +89,7 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES object_detector
- CATKIN_DEPENDS rospy message_runtime std_msgs geometry_msgs sensor_msgs
+ CATKIN_DEPENDS rospy #message_runtime std_msgs geometry_msgs sensor_msgs
 #  DEPENDS system_lib
 )
 

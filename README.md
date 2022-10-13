@@ -10,3 +10,4 @@ ROS (noetic) package for object detection.
 # requirements:
 - __object_pose_estimation__ ()[https://github.com/IASRobolab/object_pose_estimation](https://github.com/IASRobolab/object_pose_estimation))
 - __camera_calibration__ ([https://github.com/IASRobolab/camera_calibration](https://github.com/IASRobolab/camera_calibration))
+- __object_detector_srv__ ([https://github.com/IASRobolab/camera_calibration](https://github.com/IASRobolab/object_detector_srv))

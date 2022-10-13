@@ -7,7 +7,7 @@ import rospkg
 import tf
 import tf2_ros
 from geometry_msgs.msg import TransformStamped
-from object_detector.srv import GetObjPose, GetObjPoseResponse
+from object_detector_srv.srv import GetObjPose, GetObjPoseResponse
 import numpy as np
 from scipy.spatial.transform import Rotation as R
 from pathlib import Path

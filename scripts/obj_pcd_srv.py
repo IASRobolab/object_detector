@@ -10,7 +10,7 @@ from geometry_msgs.msg import TransformStamped
 from std_msgs.msg import Header
 from sensor_msgs.msg import PointCloud2, PointField
 import sensor_msgs.point_cloud2 as pc2
-from object_detector.srv import GetObjPcd, GetObjPcdResponse
+from object_detector_srv.srv import GetObjPcd, GetObjPcdResponse
 import numpy as np
 from scipy.spatial.transform import Rotation as R
 from pathlib import Path
@@ -130,11 +130,13 @@ class ObjectPCDServer:
         rospy.loginfo("Incoming request")
         obj_pcd, _= self.estimator.get_yolact_pcd(filt_type = self.filt_type, filt_params_dict = self.filt_params_dict, flg_volume_int = True)
         transl = obj_pcd.get_center()
-        o3d.visualization.draw_geometries([obj_pcd])
+        # o3d.visualization.draw_geometries([obj_pcd])
+
         ros_cloud = convert_cloud_from_o3d_to_ros(obj_pcd, frame_id=self.camera_frame_id)
 
-        conv_pcd = convert_cloud_from_ros_to_ord(ros_cloud)
-        o3d.visualization.draw_geometries([conv_pcd])
+        ## Check back-and-forth conversion
+        # conv_pcd = convert_cloud_from_ros_to_ord(ros_cloud)
+        # o3d.visualization.draw_geometries([conv_pcd])
 
 
         t = TransformStamped()
