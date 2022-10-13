@@ -131,6 +131,7 @@ class ObjectPCDServer:
         obj_pcd, _= self.estimator.get_yolact_pcd(filt_type = self.filt_type, filt_params_dict = self.filt_params_dict, flg_volume_int = True)
         transl = obj_pcd.get_center()
         # o3d.visualization.draw_geometries([obj_pcd])
+        # o3d.io.write_point_cloud('driller_test.ply', obj_pcd)
 
         ros_cloud = convert_cloud_from_o3d_to_ros(obj_pcd, frame_id=self.camera_frame_id)
 
@@ -181,9 +182,13 @@ if __name__ == "__main__":
     obj_label = 'drill'                  # Yolact label to find
     obj_model_path = model_path          # Path to the PCD model
     yolact_weights = yolact_weights      # Path to Yolact weights
-    voxel_size = 0.001                   # Voxel size for downsamping
-    filt_type = 'STATISTICAL'
-    filt_params_dict = {'nb_neighbors': 100, 'std_ratio': 0.2}
+    voxel_size = 0.0005                   # Voxel size for downsamping
+    
+    # filt_type = 'STATISTICAL'
+    # filt_params_dict = {'nb_neighbors': 100, 'std_ratio': 0.2}
+    filt_type = None
+    filt_params_dict = None
+
 
     get_pcd_srv = ObjectPCDServer(cameras_dict = cameras_dict,
                                   obj_label = obj_label,
