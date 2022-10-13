@@ -130,6 +130,8 @@ class ObjectPCDServer:
         rospy.loginfo("Incoming request")
         obj_pcd, _= self.estimator.get_yolact_pcd(filt_type = self.filt_type, filt_params_dict = self.filt_params_dict, flg_volume_int = True)
         transl = obj_pcd.get_center()
+        
+        # print("# POINTS:", np.asarray(obj_pcd.points).shape)
         # o3d.visualization.draw_geometries([obj_pcd])
         # o3d.io.write_point_cloud('driller_test.ply', obj_pcd)
 
@@ -183,7 +185,7 @@ if __name__ == "__main__":
     obj_model_path = model_path          # Path to the PCD model
     yolact_weights = yolact_weights      # Path to Yolact weights
     voxel_size = 0.0005                   # Voxel size for downsamping
-    
+
     # filt_type = 'STATISTICAL'
     # filt_params_dict = {'nb_neighbors': 100, 'std_ratio': 0.2}
     filt_type = None
