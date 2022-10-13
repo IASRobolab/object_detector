@@ -52,14 +52,14 @@ class ObjectPCDServer:
         transl = obj_pcd.get_center()
 
         # print("# POINTS:", np.asarray(obj_pcd.points).shape)
-        o3d.visualization.draw_geometries([obj_pcd])
+        # o3d.visualization.draw_geometries([obj_pcd])
         # o3d.io.write_point_cloud('driller_test.ply', obj_pcd)
 
         ros_cloud = convert_cloud_from_o3d_to_ros(obj_pcd, frame_id=self.camera_frame_id)
 
-        # Check back-and-forth conversion
-        conv_pcd = convert_cloud_from_ros_to_o3d(ros_cloud)
-        o3d.visualization.draw_geometries([conv_pcd])
+        # # Check back-and-forth conversion
+        # conv_pcd = convert_cloud_from_ros_to_o3d(ros_cloud)
+        # o3d.visualization.draw_geometries([conv_pcd])
 
 
         t = TransformStamped()

@@ -10,7 +10,6 @@ from scipy.spatial.transform import Rotation as R
 from pathlib import Path
 
 
-
 if __name__ == "__main__":
     rospy.wait_for_service('obj_pose_estimator')
     try:
