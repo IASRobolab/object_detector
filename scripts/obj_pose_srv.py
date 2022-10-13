@@ -7,7 +7,7 @@ import rospkg
 import tf
 import tf2_ros
 from geometry_msgs.msg import TransformStamped
-from object_detector_server.srv import GetObjPose, GetObjPoseResponse
+from object_detector.srv import GetObjPose, GetObjPoseResponse
 import numpy as np
 from scipy.spatial.transform import Rotation as R
 from pathlib import Path
@@ -83,7 +83,7 @@ if __name__ == "__main__":
     # model_path = str(Path.home()) + "/Code/object_pose_estimation/test/models/cup.ply"
     model_path = str(Path.home()) + "/Code/object_pose_estimation/test/models/drill.ply"
 
-    ext_cal_path = rospack.get_path('object_detector_server')+'/config/cam1_H_camX.pkl'
+    ext_cal_path = rospack.get_path('object_detector')+'/config/cam1_H_camX.pkl'
 
     cameras_dict = {'049122251418': 'REALSENSE', '023322062736': 'REALSENSE'} 
     obj_label = 'drill'                  # Yolact label to find
